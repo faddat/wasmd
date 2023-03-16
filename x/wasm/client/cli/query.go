@@ -62,6 +62,7 @@ func GetCmdLibVersion() *cobra.Command {
 			fmt.Println(version)
 			return nil
 		},
+		SilenceUsage: true,
 	}
 	return cmd
 }
@@ -102,6 +103,7 @@ func GetCmdBuildAddress() *cobra.Command {
 			cmd.Println(keeper.BuildContractAddressPredictable(codeHash, creator, salt, msg).String())
 			return nil
 		},
+		SilenceUsage: true,
 	}
 	decoder.RegisterFlags(cmd.PersistentFlags(), "salt")
 	return cmd
@@ -565,6 +567,7 @@ func GetCmdListContractsByCreator() *cobra.Command {
 		},
 	}
 	flags.AddQueryFlagsToCmd(cmd)
+	flags.AddPaginationFlagsToCmd(cmd, "list contracts by creator")
 	return cmd
 }
 
