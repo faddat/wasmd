@@ -6,8 +6,6 @@ import (
 
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/CosmWasm/wasmd/x/wasm/keeper"
-
 	"github.com/cosmos/cosmos-sdk/store"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -102,7 +100,7 @@ func TestCountTxDecorator(t *testing.T) {
 			var anyTx sdk.Tx
 
 			// when
-			ante := keeper.NewCountTXDecorator(keyWasm)
+			ante := NewCountTXDecorator(keyWasm)
 			_, gotErr := ante.AnteHandle(ctx, anyTx, spec.simulate, spec.nextAssertAnte)
 			if spec.expErr {
 				require.Error(t, gotErr)
@@ -171,12 +169,12 @@ func TestLimitSimulationGasDecorator(t *testing.T) {
 			// when
 			if spec.expErr != nil {
 				require.PanicsWithValue(t, spec.expErr, func() {
-					ante := keeper.NewLimitSimulationGasDecorator(spec.customLimit)
+					ante := NewLimitSimulationGasDecorator(spec.customLimit)
 					ante.AnteHandle(ctx, nil, spec.simulation, nextAnte)
 				})
 				return
 			}
-			ante := keeper.NewLimitSimulationGasDecorator(spec.customLimit)
+			ante := NewLimitSimulationGasDecorator(spec.customLimit)
 			ante.AnteHandle(ctx, nil, spec.simulation, nextAnte)
 		})
 	}
